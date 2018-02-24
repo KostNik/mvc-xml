@@ -6,11 +6,31 @@
 
 
     <mvc:annotation-driven/>
-    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+    <!--1. "/ - root = /src/main/webapp"-->
+    <!--mapping - for URL endpoint (localhost:8080/contacts-app/resources/styles/style.css) = resource from /src/main/webapp/styles-->
+    <mvc:resources mapping="/resources/**" location="/, classpath:/META-INF/web-resources/"/>
+
+    <mvc:default-servlet-handler/>
 
     <bean name="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/views/"
           p:suffix=".jsp"/>
 
     <context:component-scan base-package="com.edu"/>
+
+    <!--Internalization (we need to add right interceptor)-->
+    <!--"lang" = param URL  (?lang=en_US)-->
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+              p:paramName="lang"/>
+    </mvc:interceptors>
+
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource"
+          p:basenames="WEB-INF/i18n/messages, WEB-INF/i18n/application"
+          p:fallbackToSystemLocale="false"/>
+
+    <bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver" p:cookieName="locale"/>
+
+
 </beans>
