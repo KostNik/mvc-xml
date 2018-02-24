@@ -2,6 +2,8 @@ group 'com.edu'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'war'
 
 sourceCompatibility = 1.8
 
@@ -9,16 +11,26 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
 
     compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.14.RELEASE'
-    compile group: 'com.google.guava', name: 'guava', version: '23.0'
     compile group: 'org.springframework', name: 'spring-orm', version: '4.3.14.RELEASE'
+    compile group: 'org.springframework', name: 'spring-tx', version: '4.3.14.RELEASE'
+
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+
+
+
+    compile group: 'com.google.guava', name: 'guava', version: '23.0'
     compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.2.Final'
     compile group: 'com.h2database', name: 'h2', version: '1.4.196'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.13.Final'
     compile group: 'joda-time', name: 'joda-time-jsptags', version: '1.1.1'
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+    compile group: 'org.jadira.usertype', name: 'usertype.core', version: '6.0.1.GA'
+
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
 
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.20'

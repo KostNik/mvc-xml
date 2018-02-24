@@ -3,28 +3,32 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/jdbc
-        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <jdbc:embedded-database id="dataSource" type="H2">
         <jdbc:script location="classpath:META-INF/sql/schema.sql"/>
         <jdbc:script location="classpath:META-INF/sql/test-data.sql"/>
     </jdbc:embedded-database>
 
-    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="txManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <context:component-scan base-package="com.edu"/>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource"
-          p:jpaVendorAdapter="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+          p:jpaVendorAdapter-ref="jpaVendorAdapter"
           p:packagesToScan="com.edu">
         <property name="jpaProperties">
             <props>
@@ -35,10 +39,12 @@
                 <prop key="hibernate.jdbc.fetch_size">50</prop>
                 <prop key="hibernate.jdbc.batch_size">10</prop>
                 <prop key="hibernate.show_sql">true</prop>
-                <prop key="ddl-auto">create-drops</prop>
+                <!--<prop key="ddl-auto">create-drop</prop>-->
             </props>
         </property>
     </bean>
+
+    <bean name="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
 
     <context:annotation-config/>
 

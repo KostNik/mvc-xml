@@ -14,6 +14,10 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "CONTACTS")
+@NamedQueries({
+        @NamedQuery(name = "Contact.getByFirstAndLastName", query = "select c from Contact c where c.firstName=:firstName and c.lastName =:lastName"),
+        @NamedQuery(name = "Contact.getPhoto", query = "select p from Photo p join Contact c on p=c.photo where c=:id")
+})
 public class Contact {
 
     @Id
@@ -29,6 +33,7 @@ public class Contact {
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "BIRTH_DATE")
     private DateTime birthDate;
 
     @Column(name = "DESCRIPTION")
