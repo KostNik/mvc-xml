@@ -16,7 +16,8 @@ import java.util.Collection;
  */
 
 @Slf4j
-@Controller("/contacts")
+@Controller
+@RequestMapping("/contacts")
 public class ContactController {
 
     @Resource
@@ -26,7 +27,7 @@ public class ContactController {
     public String list(Model model) {
         Collection<Contact> all = contactService.getAll();
         model.addAttribute("contacts", all);
-        log.info("Contacts", all);
+        log.info("Contacts size{}", all.size());
         return "contacts/list";
     }
 }

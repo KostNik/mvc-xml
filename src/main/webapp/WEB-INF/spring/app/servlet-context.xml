@@ -19,9 +19,20 @@
 
     <context:component-scan base-package="com.edu"/>
 
-    <!--Internalization (we need to add right interceptor)-->
-    <!--"lang" = param URL  (?lang=en_US)-->
+    <!--Responsible for load resources by name (if current theme name is "standard" it us looking for standard.properties)-->
+    <bean class="org.springframework.ui.context.support.ResourceBundleThemeSource" id="themeSource"/>
+
+    <!--p:cookieMaxAge="#{30*60}"-->
+    <bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver"
+          p:cookieName="theme"
+          p:defaultThemeName="standard"/>
+
+
     <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
+
+        <!--Internalization (we need to add right interceptor)-->
+        <!--"lang" = param URL  (?lang=en_US)-->
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
               p:paramName="lang"/>
     </mvc:interceptors>
